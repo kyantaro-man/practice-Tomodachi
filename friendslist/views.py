@@ -1,7 +1,9 @@
 from django.http.response import Http404
 from django.shortcuts import render, redirect
 from friendslist.models import Friend
-from friendslist.forms import FriendForm
+from friendslist.forms import FriendForm, UserCreationForm
+from django.contrib.auth.views import LoginView
+from django.contrib import messages
 
 def index(request):
     friends = Friend.objects.all()
@@ -39,3 +41,27 @@ def delete(request, pk):
         raise Http404
     friend.delete()
     return redirect('/')
+
+class Login(LoginView):
+    template_name = 'friendslist/auth.html'
+
+    def form_valid(self, form):
+        messages.success(self.request, 'ログイン完了！！！')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'エラーあり')
+        return super().form_invalid(form)
+
+
+def signup(request):
+  context = {}
+  if request.method == 'POST':
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+      user = form.save(commit=False)
+      # user.is_active = False
+      user.save()
+      messages.success(request, '登録完了！！！')
+      return redirect('/')
+  return render(request, 'friendslist/auth.html', context)
