@@ -42,7 +42,7 @@ def delete(request, pk):
     return redirect('/')
 
 class Login(LoginView):
-    template_name = 'friendslist/login.html'
+    template_name = 'friendslist/auth.html'
 
 def signup(request):
   context = {}
@@ -53,4 +53,4 @@ def signup(request):
       # user.is_active = False
       user.save()
       return redirect('/')
-  return render(request, 'friendslist/signup.html', context)
+  return render(request, 'friendslist/auth.html', context)
