@@ -1,7 +1,7 @@
 from django.http.response import Http404
 from django.shortcuts import render, redirect
 from friendslist.models import Friend
-from friendslist.forms import FriendForm
+from friendslist.forms import FriendForm, UserCreationForm
 from django.contrib.auth.views import LoginView
 
 def index(request):
@@ -43,3 +43,14 @@ def delete(request, pk):
 
 class Login(LoginView):
     template_name = 'friendslist/login.html'
+
+def signup(request):
+  context = {}
+  if request.method == 'POST':
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+      user = form.save(commit=False)
+      # user.is_active = False
+      user.save()
+      return redirect('/')
+  return render(request, 'friendslist/signup.html', context)
