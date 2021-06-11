@@ -36,6 +36,16 @@
                     {% endif %}
                 </button>
 
+                {% if 'login' in request.path %}
+                <div class="text-center">
+                    <a href="/signup/" class="link-secondary">新規登録はこちら</a>
+                </div>
+                {% elif 'signup' in request.path %}
+                <div class="text-center">
+                    <a href="/login/" class="link-secondary">ログインはこちら</a>
+                </div>
+                {% endif %}
+
             </form>
 
         </div>
