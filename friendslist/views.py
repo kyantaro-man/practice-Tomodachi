@@ -2,6 +2,7 @@ from django.http.response import Http404
 from django.shortcuts import render, redirect
 from friendslist.models import Friend
 from friendslist.forms import FriendForm
+from django.contrib.auth.views import LoginView
 
 def index(request):
     friends = Friend.objects.all()
@@ -39,3 +40,6 @@ def delete(request, pk):
         raise Http404
     friend.delete()
     return redirect('/')
+
+class Login(LoginView):
+    template_name = 'friendslist/login.html'
