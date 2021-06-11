@@ -16,9 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from friendslist import views
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/', views.Login.as_view()),
+    path('logout/', LogoutView.as_view()),
+    path('signup/', views.signup),
     path('', views.index),
     path('create/', views.create),
     path('<slug:pk>/', views.friend, name="friend"),

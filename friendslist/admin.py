@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
 from friendslist.models import User, Friend
+from friendslist.forms import UserCreationForm
 
 class CustomUserAdmin(UserAdmin):
     fieldsets = (
@@ -29,6 +30,8 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('email', 'password',),
         }),
     )
+
+    add_form = UserCreationForm
 
 admin.site.unregister(Group)
 admin.site.register(User, CustomUserAdmin)
