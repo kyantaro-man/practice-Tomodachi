@@ -63,6 +63,14 @@ def category_create(request):
             return redirect('/category/')
     return render(request, 'friendslist/category/create.html')
 
+def category_delete(request, pk):
+    try:
+        category = Category.objects.get(pk=pk)
+    except Category.DoesNotExist:
+        raise Http404
+    category.delete()
+    return redirect('/category/')
+
 class Login(LoginView):
     template_name = 'friendslist/auth.html'
 
