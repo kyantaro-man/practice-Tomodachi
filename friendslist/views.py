@@ -40,9 +40,12 @@ def friend(request, pk):
         form = FriendForm(request.POST, instance=friend)
         if form.is_valid():
             friend.save()
-            
+
+    user = request.user
+    categories = Category.objects.filter(user=user)            
     friend = Friend.objects.get(pk=pk)
     context = {
+        'categories': categories,
         'friend': friend
     }
     return render(request, 'friendslist/friend.html', context)

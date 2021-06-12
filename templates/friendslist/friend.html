@@ -44,6 +44,15 @@
                     <input type="text" class="form-control" id="id_company" name="company" value="{{ friend.company }}">
                 </li>
                 <li class="list-group-item">
+                    <label class="form-label">カテゴリ</label>
+                    <select class="form-control" id="id_category" name="category">
+                        <option value="0" {% if friend.category.pk == 0 %}selected{% endif %}>選択しない</option>
+                        {% for category in categories %}
+                        <option value="{{ category.pk }}" {% if category.pk == friend.category.pk %}selected{% endif %}>{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </li>
+                <li class="list-group-item">
                     <button type="submit" class="btn btn-success float-end">更新</button>
                 </li>
             </ul>
