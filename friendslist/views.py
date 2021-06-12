@@ -1,14 +1,17 @@
 from django.http.response import Http404
 from django.shortcuts import render, redirect
-from friendslist.models import Friend
+from friendslist.models import Friend, Category
 from friendslist.forms import FriendForm, UserCreationForm
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
 
 def index(request):
+    user = request.user
+    categories = Category.objects.filter(user=user)
     friends = Friend.objects.all()
     context = {
         'friends': friends,
+        'categories': categories,
     }
     return render(request, 'friendslist/index.html', context)
 
@@ -42,6 +45,14 @@ def delete(request, pk):
     friend.delete()
     return redirect('/')
 
+def category_index(request):
+    user = request.user
+    categories = Category.objects.filter(user=user)
+    context = {
+        'categories': categories,
+    }
+    return render(request, 'friendslist/category/index.html', context)
+
 class Login(LoginView):
     template_name = 'friendslist/auth.html'
 
@@ -52,7 +63,6 @@ class Login(LoginView):
     def form_invalid(self, form):
         messages.error(self.request, 'エラーあり')
         return super().form_invalid(form)
-
 
 def signup(request):
   context = {}

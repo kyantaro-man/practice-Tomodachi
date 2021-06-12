@@ -25,6 +25,7 @@ urlpatterns = [
     path('signup/', views.signup),
     path('', views.index),
     path('create/', views.create),
+    path('category/', views.category_index),
     path('<slug:pk>/', views.friend, name="friend"),
     path('<slug:pk>/delete', views.delete, name="delete"),
 ]

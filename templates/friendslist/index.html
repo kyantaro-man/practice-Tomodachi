@@ -6,11 +6,11 @@
         <div class="col col-md-4">
             <h2>カテゴリ一覧</h2>
             <ul class="list-group">
-                <li class="list-group-item active" aria-current="true">仕事</li>
-                <li class="list-group-item">小学校</li>
-                <li class="list-group-item">中学校</li>
-                <li class="list-group-item">高校</li>
-                <li class="list-group-item">大学</li>
+              {% for category in categories %}
+                <li class="list-group-item">
+                  {{ category.name }}
+                </li>
+              {% endfor %}
               </ul>
         </div>
         <div class="column col-md-8">

@@ -1,0 +1,18 @@
+{% extends 'friendslist/base.html' %}
+
+{% block content %}
+<main class="container mb-5">
+    <div class="row">
+        <div class="col col-md-4">
+            <h2>カテゴリ一覧</h2>
+            <ul class="list-group">
+              {% for category in categories %}
+                <li class="list-group-item">
+                  {{ category.name }}
+                </li>
+              {% endfor %}
+              </ul>
+        </div>
+    </div>
+</main>
+{% endblock %}
