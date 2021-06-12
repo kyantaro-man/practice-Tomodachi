@@ -7,7 +7,8 @@
             <h2>カテゴリ一覧</h2>
             <ul class="list-group">
               {% for category in categories %}
-                <li class="list-group-item">
+                {{ slug }}
+                <li class="list-group-item {% if category.pk == current_category.pk %}list-group-item-warning{% endif %}">
                   {{ category.name }}
                   <a href="{% url 'category_delete' category.pk %}" class="btn btn-danger btn-sm float-end">削除</a>
                 </li>
