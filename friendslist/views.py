@@ -45,11 +45,15 @@ def delete(request, pk):
     friend.delete()
     return redirect('/')
 
-def category_index(request):
+def category_index(request, pk):
     user = request.user
     categories = Category.objects.filter(user=user)
+    current_category = Category.objects.get(pk=pk)
+    friends = Friend.objects.filter(category=current_category)
     context = {
+        'friends': friends,
         'categories': categories,
+        'current_category': current_category,
     }
     return render(request, 'friendslist/category/index.html', context)
 

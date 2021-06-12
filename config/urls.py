@@ -25,7 +25,7 @@ urlpatterns = [
     path('signup/', views.signup),
     path('', views.index),
     path('create/', views.create),
-    path('category/', views.category_index),
+    path('category/<slug:pk>', views.category_index),
     path('category/create', views.category_create),
     path('category/<slug:pk>/delete', views.category_delete, name="category_delete"),
     path('<slug:pk>/', views.friend, name="friend"),
