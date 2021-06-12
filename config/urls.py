@@ -26,6 +26,7 @@ urlpatterns = [
     path('', views.index),
     path('create/', views.create),
     path('category/', views.category_index),
+    path('category/create', views.category_create),
     path('<slug:pk>/', views.friend, name="friend"),
     path('<slug:pk>/delete', views.delete, name="delete"),
 ]

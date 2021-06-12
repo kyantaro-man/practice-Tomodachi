@@ -1,7 +1,7 @@
 from django.http.response import Http404
 from django.shortcuts import render, redirect
 from friendslist.models import Friend, Category
-from friendslist.forms import FriendForm, UserCreationForm
+from friendslist.forms import FriendForm, UserCreationForm, CategoryForm
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
 
@@ -52,6 +52,16 @@ def category_index(request):
         'categories': categories,
     }
     return render(request, 'friendslist/category/index.html', context)
+
+def category_create(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            category = form.save(commit=False)
+            category.user = request.user
+            category.save()
+            return redirect('/category/')
+    return render(request, 'friendslist/category/create.html')
 
 class Login(LoginView):
     template_name = 'friendslist/auth.html'
