@@ -3,16 +3,6 @@
 {% block content %}
 <main class="container mb-5">
     <div class="row">
-        <div class="col col-md-4">
-            <h2>カテゴリ一覧</h2>
-            <ul class="list-group">
-                <li class="list-group-item active" aria-current="true">仕事</li>
-                <li class="list-group-item">小学校</li>
-                <li class="list-group-item">中学校</li>
-                <li class="list-group-item">高校</li>
-                <li class="list-group-item">大学</li>
-              </ul>
-        </div>
         <div class="column col-md-8">
             <h2>友達一覧</h2>
             <ul class="list-group">
@@ -20,6 +10,13 @@
                 <li class="list-group-item">
                   {{ friend.name }}
                   <div class="float-end">
+                    <a href="/category/{{ friend.category.pk }}" class="btn btn-outline-secondary btn-sm">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16">
+                        <path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/>
+                        <path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/>
+                      </svg>
+                      {{ friend.category.name }}
+                    </a>
                     <a href="{% url 'friend' friend.pk %}" class="btn btn-success btn-sm">詳細</a>
                     <a href="{% url 'delete' friend.pk %}" class="btn btn-danger btn-sm">削除</a>
                   </div>

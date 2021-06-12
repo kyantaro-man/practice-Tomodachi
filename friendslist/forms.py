@@ -1,5 +1,5 @@
 from django import forms
-from friendslist.models import Friend
+from friendslist.models import Friend, Category
 from django.contrib.auth import get_user_model
 
 class FriendForm(forms.ModelForm):
@@ -14,6 +14,7 @@ class FriendForm(forms.ModelForm):
             'birthplace',
             'hobby',
             'company',
+            'category',
         )
 
 class UserCreationForm(forms.ModelForm):
@@ -33,3 +34,10 @@ class UserCreationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = (
+            'name',
+        )

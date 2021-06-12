@@ -1,14 +1,19 @@
 from django.http.response import Http404
 from django.shortcuts import render, redirect
-from friendslist.models import Friend
-from friendslist.forms import FriendForm, UserCreationForm
+from friendslist.models import Friend, Category
+from friendslist.forms import FriendForm, UserCreationForm, CategoryForm
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
 
 def index(request):
+    user = request.user
+    categories = Category.objects.filter(user=user)
+    first_category = categories.first()
     friends = Friend.objects.all()
     context = {
         'friends': friends,
+        'categories': categories,
+        'first_category': first_category,
     }
     return render(request, 'friendslist/index.html', context)
 
@@ -19,7 +24,15 @@ def create(request):
             friend = form.save(commit=False)
             friend.save()
             return redirect('/')
-    return render(request, 'friendslist/create.html')
+
+    user = request.user
+    categories = Category.objects.filter(user=user)
+    first_category = categories.first()
+    context = {
+        'categories': categories,
+        'first_category': first_category,
+    }
+    return render(request, 'friendslist/create.html', context)
 
 def friend(request, pk):
     if request.method == 'POST':
@@ -27,9 +40,12 @@ def friend(request, pk):
         form = FriendForm(request.POST, instance=friend)
         if form.is_valid():
             friend.save()
-            
+
+    user = request.user
+    categories = Category.objects.filter(user=user)            
     friend = Friend.objects.get(pk=pk)
     context = {
+        'categories': categories,
         'friend': friend
     }
     return render(request, 'friendslist/friend.html', context)
@@ -42,6 +58,52 @@ def delete(request, pk):
     friend.delete()
     return redirect('/')
 
+def category_index(request, pk):
+    user = request.user
+    categories = Category.objects.filter(user=user)
+    current_category = Category.objects.get(pk=pk)
+    first_category = categories.first()
+    friends = Friend.objects.filter(category=current_category)
+    context = {
+        'friends': friends,
+        'categories': categories,
+        'current_category': current_category,
+        'first_category': first_category,
+    }
+    return render(request, 'friendslist/category/index.html', context)
+
+def category_create(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            category = form.save(commit=False)
+            category.user = request.user
+            category.save()
+            user = request.user
+            categories = Category.objects.filter(user=user)
+            first_category = categories.first()
+            return redirect('/category/{}'.format(first_category.id))
+
+    user = request.user
+    categories = Category.objects.filter(user=user)
+    first_category = categories.first()
+    context = {
+        'first_category': first_category,
+    }
+    return render(request, 'friendslist/category/create.html', context)
+
+def category_delete(request, pk):
+    try:
+        category = Category.objects.get(pk=pk)
+    except Category.DoesNotExist:
+        raise Http404
+    category.delete()
+
+    user = request.user
+    categories = Category.objects.filter(user=user)
+    first_category = categories.first()
+    return redirect('/category/{}'.format(first_category.id))
+
 class Login(LoginView):
     template_name = 'friendslist/auth.html'
 
@@ -52,7 +114,6 @@ class Login(LoginView):
     def form_invalid(self, form):
         messages.error(self.request, 'エラーあり')
         return super().form_invalid(form)
-
 
 def signup(request):
   context = {}
