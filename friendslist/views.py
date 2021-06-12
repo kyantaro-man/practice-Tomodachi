@@ -64,7 +64,10 @@ def category_create(request):
             category = form.save(commit=False)
             category.user = request.user
             category.save()
-            return redirect('/category/')
+            user = request.user
+            categories = Category.objects.filter(user=user)
+            first_category = categories.first()
+            return redirect('/category/{}'.format(first_category.id))
     return render(request, 'friendslist/category/create.html')
 
 def category_delete(request, pk):
@@ -73,7 +76,11 @@ def category_delete(request, pk):
     except Category.DoesNotExist:
         raise Http404
     category.delete()
-    return redirect('/category/')
+
+    user = request.user
+    categories = Category.objects.filter(user=user)
+    first_category = categories.first()
+    return redirect('/category/{}'.format(first_category.id))
 
 class Login(LoginView):
     template_name = 'friendslist/auth.html'
