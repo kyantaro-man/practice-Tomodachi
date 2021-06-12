@@ -14,6 +14,7 @@ class FriendForm(forms.ModelForm):
             'birthplace',
             'hobby',
             'company',
+            'category',
         )
 
 class UserCreationForm(forms.ModelForm):

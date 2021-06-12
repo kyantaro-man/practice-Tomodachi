@@ -29,6 +29,7 @@ def create(request):
     categories = Category.objects.filter(user=user)
     first_category = categories.first()
     context = {
+        'categories': categories,
         'first_category': first_category,
     }
     return render(request, 'friendslist/create.html', context)
