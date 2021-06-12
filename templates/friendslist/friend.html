@@ -46,7 +46,6 @@
                 <li class="list-group-item">
                     <label class="form-label">カテゴリ</label>
                     <select class="form-control" id="id_category" name="category">
-                        <option value="0" {% if friend.category.pk == 0 %}selected{% endif %}>選択しない</option>
                         {% for category in categories %}
                         <option value="{{ category.pk }}" {% if category.pk == friend.category.pk %}selected{% endif %}>{{ category.name }}</option>
                         {% endfor %}
