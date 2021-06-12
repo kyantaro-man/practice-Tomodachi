@@ -8,10 +8,12 @@ from django.contrib import messages
 def index(request):
     user = request.user
     categories = Category.objects.filter(user=user)
+    first_category = categories.first()
     friends = Friend.objects.all()
     context = {
         'friends': friends,
         'categories': categories,
+        'first_category': first_category,
     }
     return render(request, 'friendslist/index.html', context)
 
@@ -22,7 +24,14 @@ def create(request):
             friend = form.save(commit=False)
             friend.save()
             return redirect('/')
-    return render(request, 'friendslist/create.html')
+
+    user = request.user
+    categories = Category.objects.filter(user=user)
+    first_category = categories.first()
+    context = {
+        'first_category': first_category,
+    }
+    return render(request, 'friendslist/create.html', context)
 
 def friend(request, pk):
     if request.method == 'POST':
@@ -49,11 +58,13 @@ def category_index(request, pk):
     user = request.user
     categories = Category.objects.filter(user=user)
     current_category = Category.objects.get(pk=pk)
+    first_category = categories.first()
     friends = Friend.objects.filter(category=current_category)
     context = {
         'friends': friends,
         'categories': categories,
         'current_category': current_category,
+        'first_category': first_category,
     }
     return render(request, 'friendslist/category/index.html', context)
 
@@ -68,7 +79,14 @@ def category_create(request):
             categories = Category.objects.filter(user=user)
             first_category = categories.first()
             return redirect('/category/{}'.format(first_category.id))
-    return render(request, 'friendslist/category/create.html')
+
+    user = request.user
+    categories = Category.objects.filter(user=user)
+    first_category = categories.first()
+    context = {
+        'first_category': first_category,
+    }
+    return render(request, 'friendslist/category/create.html', context)
 
 def category_delete(request, pk):
     try:
