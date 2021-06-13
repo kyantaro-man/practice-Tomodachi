@@ -130,9 +130,6 @@ def memo_delete(request, pk, memo_pk):
 
 
 
-
-
-
 class Login(LoginView):
     template_name = 'friendslist/auth.html'
 

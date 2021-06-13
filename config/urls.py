@@ -19,11 +19,11 @@ from friendslist import views
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
+    path('', views.index),
     path('admin/', admin.site.urls),
     path('login/', views.Login.as_view()),
     path('logout/', LogoutView.as_view()),
     path('signup/', views.signup),
-    path('', views.index),
     path('create/', views.create),
     path('category/create/', views.category_create),
     path('category/<slug:pk>/', views.category_index),
