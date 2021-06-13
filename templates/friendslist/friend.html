@@ -58,6 +58,7 @@
         </div>
         <div class="column col-md-8">
             <h2>友達メモ</h2>
+            <a class="btn btn-info" href="{% url 'memo_create' friend.pk %}" role="button">メモを登録する</a>
             <ul class="list-group">
                 {% for memo in memos %}
                 <li class="list-group-item">{{ memo.text }}</li>

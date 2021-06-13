@@ -1,5 +1,5 @@
 from django import forms
-from friendslist.models import Friend, Category
+from friendslist.models import Friend, Category, Memo
 from django.contrib.auth import get_user_model
 
 class FriendForm(forms.ModelForm):
@@ -40,4 +40,11 @@ class CategoryForm(forms.ModelForm):
         model = Category
         fields = (
             'name',
+        )
+
+class MemoForm(forms.ModelForm):
+    class Meta:
+        model = Memo
+        fields = (
+            'text',
         )
