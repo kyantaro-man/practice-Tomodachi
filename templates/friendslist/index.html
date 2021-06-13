@@ -9,6 +9,9 @@
             {% for friend in friends %}
                 <li class="list-group-item">
                   {{ friend.name }}
+                  {% if friend.furigana is not None %}
+                  （{{ friend.furigana }}）
+                  {% endif %}
                   <div class="float-end">
                     <a href="/category/{{ friend.category.pk }}" class="btn btn-outline-secondary btn-sm">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16">
