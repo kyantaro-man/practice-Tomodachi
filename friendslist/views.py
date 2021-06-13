@@ -45,7 +45,10 @@ def friend(request, pk):
     user = request.user
     categories = Category.objects.filter(user=user)            
     friend = Friend.objects.get(pk=pk)
-    friend_birthday= "{0:%Y-%m-%d}".format(friend.birthday)
+    if friend.birthday is not None:
+        friend_birthday = "{0:%Y-%m-%d}".format(friend.birthday)
+    else:
+        friend_birthday = friend.birthday
     memos = Memo.objects.filter(friend=friend)
     context = {
         'categories': categories,
