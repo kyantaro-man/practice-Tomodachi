@@ -4,7 +4,9 @@ from friendslist.models import Friend, Category, Memo
 from friendslist.forms import FriendForm, UserCreationForm, CategoryForm, MemoForm
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def index(request):
     user = request.user
     categories = Category.objects.filter(user=user)
@@ -17,6 +19,7 @@ def index(request):
     }
     return render(request, 'friendslist/index.html', context)
 
+@login_required
 def create(request):
     if request.method == 'POST':
         form = FriendForm(request.POST)
@@ -35,6 +38,7 @@ def create(request):
     }
     return render(request, 'friendslist/create.html', context)
 
+@login_required
 def friend(request, pk):
     if request.method == 'POST':
         friend = Friend.objects.get(pk=pk)
@@ -58,6 +62,7 @@ def friend(request, pk):
     }
     return render(request, 'friendslist/friend.html', context)
 
+@login_required
 def delete(request, pk):
     try:
         friend = Friend.objects.get(pk=pk)
@@ -66,6 +71,7 @@ def delete(request, pk):
     friend.delete()
     return redirect('/')
 
+@login_required
 def category_index(request, pk):
     user = request.user
     categories = Category.objects.filter(user=user)
@@ -80,6 +86,7 @@ def category_index(request, pk):
     }
     return render(request, 'friendslist/category/index.html', context)
 
+@login_required
 def category_create(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST)
@@ -100,6 +107,7 @@ def category_create(request):
     }
     return render(request, 'friendslist/category/create.html', context)
 
+@login_required
 def category_delete(request, pk):
     try:
         category = Category.objects.get(pk=pk)
@@ -112,6 +120,7 @@ def category_delete(request, pk):
     first_category = categories.first()
     return redirect('/category/{}'.format(first_category.id))
 
+@login_required
 def memo_create(request, pk):
     if request.method == 'POST':
         form = MemoForm(request.POST)
@@ -125,6 +134,7 @@ def memo_create(request, pk):
     context = {}
     return render(request, 'friendslist/memo/create.html', context)
 
+@login_required
 def memo_delete(request, pk, memo_pk):
     try:
         memo = Memo.objects.get(pk=memo_pk)
@@ -133,8 +143,6 @@ def memo_delete(request, pk, memo_pk):
     memo.delete()
 
     return redirect('/{}/'.format(pk))
-
-
 
 class Login(LoginView):
     template_name = 'friendslist/auth.html'
