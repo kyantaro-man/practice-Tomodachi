@@ -31,4 +31,5 @@ urlpatterns = [
     path('<slug:pk>/', views.friend, name="friend"),
     path('<slug:pk>/delete', views.delete, name="delete"),
     path('<slug:pk>/memo/create/', views.memo_create, name="memo_create"),
+    path('<slug:pk>/memo/<slug:memo_pk>/delete/', views.memo_delete, name="memo_delete"),
 ]

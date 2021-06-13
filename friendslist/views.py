@@ -119,6 +119,19 @@ def memo_create(request, pk):
     context = {}
     return render(request, 'friendslist/memo/create.html', context)
 
+def memo_delete(request, pk, memo_pk):
+    try:
+        memo = Memo.objects.get(pk=memo_pk)
+    except Memo.DoesNotExist:
+        raise Http404
+    memo.delete()
+
+    return redirect('/{}/'.format(pk))
+
+
+
+
+
 
 class Login(LoginView):
     template_name = 'friendslist/auth.html'
