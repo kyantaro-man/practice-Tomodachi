@@ -77,3 +77,9 @@ class Friend(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
+
+class Memo(models.Model):
+    text = models.CharField(default="", max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    friend = models.ForeignKey(Friend, on_delete=models.CASCADE)

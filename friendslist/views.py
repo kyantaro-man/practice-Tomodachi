@@ -1,7 +1,7 @@
 from django.http.response import Http404
 from django.shortcuts import render, redirect
-from friendslist.models import Friend, Category
-from friendslist.forms import FriendForm, UserCreationForm, CategoryForm
+from friendslist.models import Friend, Category, Memo
+from friendslist.forms import FriendForm, UserCreationForm, CategoryForm, MemoForm
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
 
@@ -44,9 +44,11 @@ def friend(request, pk):
     user = request.user
     categories = Category.objects.filter(user=user)            
     friend = Friend.objects.get(pk=pk)
+    memos = Memo.objects.filter(friend=friend)
     context = {
         'categories': categories,
-        'friend': friend
+        'friend': friend,
+        'memos': memos,
     }
     return render(request, 'friendslist/friend.html', context)
 
@@ -103,6 +105,33 @@ def category_delete(request, pk):
     categories = Category.objects.filter(user=user)
     first_category = categories.first()
     return redirect('/category/{}'.format(first_category.id))
+
+def memo_create(request, pk):
+    if request.method == 'POST':
+        form = MemoForm(request.POST)
+        friend = Friend.objects.get(pk=pk)
+        if form.is_valid():
+            memo = form.save(commit=False)
+            memo.friend = friend
+            memo.save()
+            return redirect('/{}/'.format(pk))
+
+    context = {}
+    return render(request, 'friendslist/memo/create.html', context)
+
+def memo_delete(request, pk, memo_pk):
+    try:
+        memo = Memo.objects.get(pk=memo_pk)
+    except Memo.DoesNotExist:
+        raise Http404
+    memo.delete()
+
+    return redirect('/{}/'.format(pk))
+
+
+
+
+
 
 class Login(LoginView):
     template_name = 'friendslist/auth.html'
