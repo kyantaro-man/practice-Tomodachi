@@ -5,6 +5,7 @@ from friendslist.forms import FriendForm, UserCreationForm, CategoryForm, MemoFo
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
 
 @login_required
 def index(request):
@@ -163,7 +164,8 @@ def signup(request):
       user = form.save(commit=False)
       # user.is_active = False
       user.save()
+      login(request, user)
       messages.success(request, '登録完了！！！')
-      return redirect('/login/')
+      return redirect('/')
 
   return render(request, 'friendslist/auth.html', context)
