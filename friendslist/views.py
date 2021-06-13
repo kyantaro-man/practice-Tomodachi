@@ -153,5 +153,6 @@ def signup(request):
       # user.is_active = False
       user.save()
       messages.success(request, '登録完了！！！')
-      return redirect('/')
+      return redirect('/login/')
+
   return render(request, 'friendslist/auth.html', context)
