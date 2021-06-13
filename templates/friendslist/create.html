@@ -4,7 +4,7 @@
 <main class="container mb-5">
     <form class="row" method="POST">
         {% csrf_token %}
-        <div class="col col-md-4">
+        <div class="col col-md-6">
             <h2>友達作成</h2>
             <ul class="list-group">
                 <li class="list-group-item">
@@ -54,14 +54,6 @@
                 <li class="list-group-item">
                     <button type="submit" class="btn btn-success float-end">保存</button>
                 </li>
-            </ul>
-        </div>
-        <div class="column col-md-8">
-            <h2>友達メモ</h2>
-            <ul class="list-group">
-                <li class="list-group-item">メモ１</li>
-                <li class="list-group-item">メモ２</li>
-                <li class="list-group-item">メモ３</li>
             </ul>
         </div>
     </form>
