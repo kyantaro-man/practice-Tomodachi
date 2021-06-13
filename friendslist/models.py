@@ -78,6 +78,7 @@ class Friend(models.Model):
     company = models.CharField(blank=True, null=True, max_length=30)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
 
 class Memo(models.Model):

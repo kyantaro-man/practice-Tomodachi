@@ -9,7 +9,7 @@ def index(request):
     user = request.user
     categories = Category.objects.filter(user=user)
     first_category = categories.first()
-    friends = Friend.objects.all()
+    friends = Friend.objects.filter(user=user)
     context = {
         'friends': friends,
         'categories': categories,
@@ -22,6 +22,7 @@ def create(request):
         form = FriendForm(request.POST)
         if form.is_valid():
             friend = form.save(commit=False)
+            friend.user = request.user
             friend.save()
             return redirect('/')
 
