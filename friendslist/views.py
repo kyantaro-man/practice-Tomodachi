@@ -44,10 +44,12 @@ def friend(request, pk):
     user = request.user
     categories = Category.objects.filter(user=user)            
     friend = Friend.objects.get(pk=pk)
+    friend_birthday= "{0:%Y-%m-%d}".format(friend.birthday)
     memos = Memo.objects.filter(friend=friend)
     context = {
         'categories': categories,
         'friend': friend,
+        'friend_birthday': friend_birthday,
         'memos': memos,
     }
     return render(request, 'friendslist/friend.html', context)
