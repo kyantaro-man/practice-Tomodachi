@@ -1,6 +1,6 @@
 from django.http.response import Http404
 from django.shortcuts import render, redirect
-from friendslist.models import Friend, Category
+from friendslist.models import Friend, Category, Memo
 from friendslist.forms import FriendForm, UserCreationForm, CategoryForm
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
@@ -44,9 +44,11 @@ def friend(request, pk):
     user = request.user
     categories = Category.objects.filter(user=user)            
     friend = Friend.objects.get(pk=pk)
+    memos = Memo.objects.filter(friend=friend)
     context = {
         'categories': categories,
-        'friend': friend
+        'friend': friend,
+        'memos': memos,
     }
     return render(request, 'friendslist/friend.html', context)
 

@@ -59,9 +59,9 @@
         <div class="column col-md-8">
             <h2>友達メモ</h2>
             <ul class="list-group">
-                <li class="list-group-item">メモ１</li>
-                <li class="list-group-item">メモ２</li>
-                <li class="list-group-item">メモ３</li>
+                {% for memo in memos %}
+                <li class="list-group-item">{{ memo.text }}</li>
+                {% endfor %}
             </ul>
         </div>
     </form>
