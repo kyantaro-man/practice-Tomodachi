@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.contrib.auth import get_user_model
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class UserManager(BaseUserManager):
 
@@ -76,6 +78,7 @@ class Friend(models.Model):
     company = models.CharField(blank=True, null=True, max_length=30)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
 
 class Memo(models.Model):
@@ -83,3 +86,10 @@ class Memo(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     friend = models.ForeignKey(Friend, on_delete=models.CASCADE)
+
+@receiver(post_save, sender=User)
+def create_category(sender, **kwargs):
+    if kwargs['created']:
+        default_category = Category.objects.create(user=kwargs['instance'])
+        default_category.name = "デフォルト"
+        default_category.save()
