@@ -147,3 +147,7 @@ MESSAGE_TAGS = {
     messages.DEBUG: 'rounded-0 alert alert-secondary',
  }
 # --------- massage tab with bootstrap alert class ----------
+
+# django-herokuの一括設定(デプロイの一括設定)
+import django_heroku
+django_heroku.settings(locals())
